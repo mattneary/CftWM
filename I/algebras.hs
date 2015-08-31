@@ -3,9 +3,10 @@
 
 module Algebras where
 
-class Group a where
-  (<*>) :: a -> a -> a
-  gid :: a
+import Data.Monoid
+
+class Monoid a => Group a where
+  invert :: a -> a
 
 class Functor f a b where
   fmap :: (a -> b) -> (f a) -> (f b)

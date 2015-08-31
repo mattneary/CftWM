@@ -9,12 +9,11 @@ module Ex5 where
 -- | function T(G) = G the identity function for every group
 -- | G.
 
-import Prelude (($), (.), Int, (+), (/=))
-import Algebras
+import Prelude (($), (.), (/=), Int)
 
-instance Group Int where
-  (<*>) = (+)
-  gid = 0
+import Algebras
+import Instances
+import Data.Monoid
 
 data Id g = Id g
 instance (Group a, Group b) => Functor Id a b where
@@ -22,10 +21,10 @@ instance (Group a, Group b) => Functor Id a b where
 
 data Const g = Const g
 instance (Group a, Group b) => Functor Const a b where
-  fmap f (Const x) = Const . f $ gid
+  fmap f (Const x) = Const . f $ mempty
 
 check =
-  let Id a = fmap ((1 :: Int) <*>) (Id 1)
-      Const b = fmap ((1 :: Int) <*>) (Const 1)
+  let Id a = fmap (mappend (1 :: Int)) (Id 1)
+      Const b = fmap (mappend (1 :: Int)) (Const 1)
   in a /= b
 
